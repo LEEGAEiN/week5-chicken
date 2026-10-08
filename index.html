@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+
+    <title>Crane</title>
+
+
+    <style>
+        body {margin: 0; background: white; overflow: hidden;}
+
+        h1 {
+            position: absolute;
+            z-index: 200;
+            left: 80px;
+
+            background: white;
+            border
+            width: 500px; 
+            padding: 40px;
+            overflow: hidden;
+            text-align: center;
+
+            font-size: 120px;
+        }
+
+
+
+        input[type="range"] {
+            accent-color: black;
+        }
+
+
+        #chickens {
+            z-index: 20;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        #chickenCount {
+            position: absolute;
+
+            left: 255px;     
+            top: 60px;    
+
+            width: 50px;
+            height: 50px;
+
+            background: black;
+            color: white;
+
+            border-radius: 50%;
+
+            font-size: 30px;
+            text-align: center;
+            line-height: 55px;
+
+            z-index: 240;    
+        }
+
+
+        .chicken {
+            z-index: 20;
+            position: absolute;
+            cursor: pointer;
+
+            pointer-events: auto;
+        }
+
+
+        .range {
+            z-index: 10;
+            position: absolute;
+            left: 800px;
+            top: 500px;
+
+            display: flex;
+            gap: 20px;
+        }
+
+
+        #crane {
+            z-index: 5;
+            position: absolute;
+            left:760px;
+            width: 500px;
+            height: 600px;
+
+            margin: 50px auto;
+        }
+
+
+
+        #crane_body {
+            position: absolute;
+
+            width: 138px;
+
+            left: 170px;
+            top: 300px;
+        }
+
+
+
+        #crane_neck {
+            position: absolute;
+            width: 20px;
+            height: 69px;
+            left: 178px;
+            top: 231px;
+            transform-origin: bottom center;
+            object-fit: fill;
+        }
+
+
+        #crane_head {
+            position: absolute;
+            width: 48px;
+            left: 147px;
+            top: 198px;
+        }
+
+
+
+        #neckRange {
+            writing-mode: vertical-lr;
+            direction: rtl;
+            height: 100px;
+        }
+
+
+        #colorRange {
+            writing-mode: vertical-lr;
+            direction: rtl;
+            height: 100px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+    <h1 id="title">군계일학</h1>
+
+    <div id="chickenCount">0</div>
+    <div id="chickens"></div>
+
+
+    <div class="range">
+        <input type="range" id="neckRange" min="50" max="200" value="100">
+        <input type="range" id="colorRange" min="0" max="360" value="0">
+    </div>
+
+    <div id="crane">
+
+        <img src="crane_body.png" id="crane_body">
+
+        <img src="crane_neck.png" id="crane_neck">
+
+        <img src="crane_head.png" id="crane_head">
+
+
+    </div>
+
+
+
+    <script>
+
+
+        var neck = document.getElementById("crane_neck");
+        var head = document.getElementById("crane_head");
+        var range = document.getElementById("neckRange");
+
+        var colorRange = document.getElementById("colorRange");
+
+
+
+        range.oninput = function() {
+
+            var length = range.value;
+            neck.style.height = length + "px";
+            neck.style.top = (300 - length) + "px";
+            head.style.top = (300 - length - 28) + "px";
+        };
+
+
+        colorRange.oninput = function() {
+
+            var hue = colorRange.value;
+            crane_body.style.filter =
+                "sepia(1) saturate(1000%) hue-rotate(" + hue + "deg)";
+            crane_neck.style.filter =
+                "sepia(1) saturate(1000%) hue-rotate(" + hue + "deg)";
+            crane_head.style.filter =
+                "sepia(1) saturate(1000%) hue-rotate(" + hue + "deg)";
+        };
+
+            var chickens = document.getElementById("chickens");
+            var chickenCount = document.getElementById("chickenCount");
+
+            var count = 0;
+
+            for (var i = 0; i < 700; i++) {
+
+                var chicken = document.createElement("img");
+                chicken.src = "chicken.png";
+                chicken.className = "chicken";
+                chicken.style.left = Math.random() * window.innerWidth + "px";
+                chicken.style.top = Math.random() * window.innerWidth + "px";
+
+                chickens.appendChild(chicken);
+
+            if (Math.random() < 0.5) {
+                    chicken.style.transform = "scaleX(-1)";
+            }
+
+
+            chicken.onclick = function() {
+
+                this.style.display = "none";
+
+                var random = Math.random();
+
+                if (random < 0.33) {
+
+                    var sound = new Audio("chicken_sound.mp3");
+                    sound.play();
+
+                } else if (random < 0.66) {
+
+                    var sound = new Audio("chicken_sound2.mp3");
+                    sound.play();
+
+                }
+
+                count = count + 1;
+                chickenCount.innerHTML = count;
+
+            };
+
+
+                    }
+
+    </script>
+
+
+</body>
+</html>
